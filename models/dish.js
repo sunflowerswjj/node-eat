@@ -14,5 +14,8 @@ module.exports = {
     },
     randomDish: function (count) {
         return Dish.aggregate({ $sample: { size: parseInt(count) } }).exec()
+    },
+    getLiker: function (id) {
+        return User.findOne({ _id: id }).populate('liker', 'username').exec()
     }
 }

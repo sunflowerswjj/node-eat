@@ -19,8 +19,14 @@ router.post('/', checkHost, function (req, res, next) {
     })
 })
 router.post('/add', checkHost, function (req, res, next) {
-    var options = req.query
+    var options = req.body
     Dish.create(options).then(function (result) {
+        if (!result) {
+            return res.send({
+                msgcode: 1003,
+                msg: '添加失败',
+            })
+        }
         res.send({
             msgcode: 1,
             msg: '成功添加菜肴',
@@ -42,8 +48,9 @@ router.post('/count', checkHost, function (req, res, next) {
         })
     })
 })
-router.post('/random', checkHost, function (req, res, next) {
+router.get('/random', checkHost, function (req, res, next) {
     var count = req.query.count
+    console.log(req.cookies)
     if (!count) {
         return res.send({
             msgcode: 1005,
@@ -81,6 +88,30 @@ router.post('/delete', checkHost, function (req, res, next) {
         res.send({
             msgcode: 1004,
             msg: err.message,
+        })
+    })
+})
+router.post('/getLiker', checkHost, function (req, res, next) {
+    var options = req.body,
+        id = options.id
+    Dish.getLiker(id).then(function (result) {
+        console.log(result)
+        if (result.length) {
+            res.send({
+                msgcode: 1,
+                msg: '获取成功',
+                likerList: result
+            })
+        } else {
+            res.send({
+                msgcode: 1018,
+                msg: '获取失败'
+            })
+        }
+    }).catch(function (err) {
+        res.send({
+            msgcode: 1018,
+            msg: err.message
         })
     })
 })

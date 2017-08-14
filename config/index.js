@@ -1,4 +1,5 @@
 module.exports = {
-  port: 8002,
+  port: 8008,
+  subDirectory: '/eatApi',
   mongodb: 'mongodb://localhost:27017/eat'
 }

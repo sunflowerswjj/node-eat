@@ -1,7 +1,9 @@
+var subDirectory = require('../config').subDirectory
+
 module.exports = function (app) {
-  app.get('/', function (req, res) {
+  app.get(subDirectory + '/', function (req, res) {
     res.send('hello')
   })
-  app.use('/user', require('./user'))
-  app.use('/dish', require('./dish'))
+  app.use(subDirectory + '/user', require('./user'))
+  app.use(subDirectory + '/dish', require('./dish'))
 }
